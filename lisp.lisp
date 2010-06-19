@@ -68,7 +68,7 @@
 	(cond 
 		((eq (car code) 'list) (cdr code))
 		((eq (car code) 'car) (caadr code))
-		((eq (car code) 'cdr) (cddr code))
+		((eq (car code) 'cdr) (cdadr code))
 		(t nil)
 	)
 )
@@ -174,3 +174,6 @@
 ;car
 (test 'car1 (exec '(car (quote (2 3)))) '2)
 (test 'car2 (exec '(car (quote (4 2 3)))) '4)
+
+;cdr
+(test 'cdr1 (exec '(cdr (quote (4 2 3)))) '(2 3))
