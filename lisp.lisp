@@ -67,7 +67,8 @@
 (defun exec_fun (code env)
 	(cond 
 		((eq (car code) 'list) (cdr code))
-		((eq (car code) 'car) (cadr code))
+		((eq (car code) 'car) (caadr code))
+		((eq (car code) 'cdr) (cddr code))
 		(t nil)
 	)
 )
@@ -106,10 +107,10 @@
 
 ;testing function
 ;=============================
-(defun test (name expected got)
+(defun test (name got expected)
 	(if (equal expected got)
 		t
-		(progn (print name) (print 'ERR))
+		(progn (print '==errr==) (print name) (print 'expected) (print expected) (print 'got) (print got))
 	)
 )
 ;=============================
@@ -169,3 +170,7 @@
 (test 'listproc1 (exec '(list (or t t))) '(t))
 (test 'listproc2 (exec '(list (or t t) (and t nil))) '(t nil))
 (test 'listproc3 (exec '(list (quote (2 3 4)))) '((2 3 4)))
+
+;car
+(test 'car1 (exec '(car (quote (2 3)))) '2)
+(test 'car2 (exec '(car (quote (4 2 3)))) '4)
