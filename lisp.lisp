@@ -67,10 +67,18 @@
 (defun exec_fun (code env)
 	(cond 
 		((eq (car code) 'list) (cdr code))
-		((eq (car code) 'car) (caadr code))
-		((eq (car code) 'cdr) (cdadr code))
+		((eq (car code) 'car) (my_car code))
+		((eq (car code) 'cdr) (my_cdr code))
 		(t nil)
 	)
+)
+
+(defun my_car (code)
+	(caadr code)
+)
+
+(defun my_cdr (code)
+	(cdadr code)
 )
 
 (defun eval_args (code env)
