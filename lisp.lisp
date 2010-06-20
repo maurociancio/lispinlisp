@@ -74,27 +74,25 @@
 ;(fun params)
 (defun exec_fun (code env)
 	(cond 
+		;procesamos list
 		((eq (car code) 'list) (cdr code))
-		((eq (car code) 'car) (my_car code))
-		((eq (car code) 'cdr) (my_cdr code))
-		((eq (car code) 'caar) (car (my_car code)))
-		((eq (car code) 'cdar) (cdr (my_car code)))
+		;procesamos car
+		((eq (car code) 'car) (car (params code)))
+		;procesamos cdr
+		((eq (car code) 'cdr) (cdr (params code)))
+		;procesamos caar
+		((eq (car code) 'caar) (caar (params code)))
+		;procesamos cdar
+		((eq (car code) 'cdar) (cdar (params code)))
 		(t nil)
 	)
 )
 
-;hace car del codigo
+;obtiene los parametros de una llamada a una funcion
 ;(fun (val1 val2))
-;retorna val1
-(defun my_car (code)
-	(caadr code)
-)
-
-;hace cdr del codigo
-;(fun (val1 val2))
-;retorna (val2)
-(defun my_cdr (code)
-	(cdadr code)
+;retorna (val1 val2)
+(defun params (code)
+	(cadr code)
 )
 
 ;evalue la lista de argumentos de una funcion
