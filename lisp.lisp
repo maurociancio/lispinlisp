@@ -225,4 +225,4 @@
 ;not
 (test 'not1 (exec '(not t)) nil)
 (test 'not2 (exec '(not nil)) t)
-(test 'not4 (exec '(not a) ((a nil))) t)
+(test 'not4 (exec '(not a) '((a nil))) t)
