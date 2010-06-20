@@ -1,4 +1,5 @@
 ;busca en el ambiente env el elemento elem
+;ambiente: ((var val) (var2 val2))
 (defun env_search (env elem)
 	(if (or (null env) (null elem))
 		nil
@@ -10,11 +11,13 @@
 )
 
 ;evalua una expresion quote
+;(quote expresion)
 (defun exec_quote (code)
 	(cadr code)
 )
 
 ;evalua una expresion que es un atomo
+;atomo
 (defun exec_atom (the_atom env)
 	(if (numberp the_atom) 
 		the_atom
@@ -26,6 +29,7 @@
 )
 
 ;evalua una expresion or
+;(or expr1 expr2)
 (defun exec_or (code env)
 	(if (exec (cadr code) env)
 		T
@@ -34,6 +38,7 @@
 )
 
 ;evalua una expresion and
+;(and expr1 expr2)
 (defun exec_and (code env)
 	(if (exec (cadr code) env)
 		(exec (caddr code) env)
@@ -42,6 +47,7 @@
 )
 
 ;evalua una expresion if
+;(if expresion true-code false-code)
 (defun exec_if (code env)
 	(if (exec (cadr code) env)
 		(exec (caddr code) env)
@@ -50,12 +56,13 @@
 )
 
 ;evalula una expresion cond
+;(cond (expr code) (expr code))
 (defun exec_cond (code env)
 	(exec_cond_list (cdr code) env)
 )
 
 ;evalua una lista de expresion del cond con el sig formato
-;( (expr code) (expr code) )
+;((expr code) (expr code) )
 (defun exec_cond_list (code env)
 	(if (exec (caar code) env)
 		(exec (cadar code) env)
@@ -64,6 +71,7 @@
 )
 
 ;procesamos funciones de lisp
+;(fun params)
 (defun exec_fun (code env)
 	(cond 
 		((eq (car code) 'list) (cdr code))
@@ -75,18 +83,28 @@
 	)
 )
 
+;hace car del codigo
+;(fun (val1 val2))
+;retorna val1
 (defun my_car (code)
 	(caadr code)
 )
 
+;hace cdr del codigo
+;(fun (val1 val2))
+;retorna (val2)
 (defun my_cdr (code)
 	(cdadr code)
 )
 
+;evalue la lista de argumentos de una funcion
+;(fun param1 param2 ... paramn)
 (defun eval_args (code env)
 	(cons (car code) (eval_args_list (cdr code) env))
 )
 
+;evalue la lista de argumentos de una funcion
+;(param1 param2 ... paramn)
 (defun eval_args_list (code env)
 	(if (null code)
 		nil
@@ -94,6 +112,8 @@
 	)
 )
 
+;evalua una expresion lisp
+;ver ejemplos mas abajo
 (defun exec (code &optional (env nil))
 	(if (null code) nil
 		(cond
