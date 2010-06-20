@@ -84,6 +84,8 @@
 		((eq (car code) 'caar) (caar (params code)))
 		;procesamos cdar
 		((eq (car code) 'cdar) (cdar (params code)))
+		;procesamos el not
+		((eq (car code) 'not) (not (params code)))
 		(t nil)
 	)
 )
@@ -91,6 +93,8 @@
 ;obtiene los parametros de una llamada a una funcion
 ;(fun (val1 val2))
 ;retorna (val1 val2)
+;(fun t)
+;retorna t
 (defun params (code)
 	(cadr code)
 )
@@ -217,3 +221,8 @@
 
 ;cdr + ambiente
 (test 'cdr-amb1 (exec '(cdr (list a b c)) '((a 100) (b 99) (c 98)) ) '(99 98))
+
+;not
+(test 'not1 (exec '(not t)) nil)
+(test 'not2 (exec '(not nil)) t)
+(test 'not4 (exec '(not a) ((a nil))) t)
