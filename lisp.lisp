@@ -69,6 +69,8 @@
 		((eq (car code) 'list) (cdr code))
 		((eq (car code) 'car) (my_car code))
 		((eq (car code) 'cdr) (my_cdr code))
+		((eq (car code) 'caar) (car (my_car code)))
+		((eq (car code) 'cdar) (cdr (my_car code)))
 		(t nil)
 	)
 )
@@ -185,3 +187,9 @@
 
 ;cdr
 (test 'cdr1 (exec '(cdr (quote (4 2 3)))) '(2 3))
+
+;caar
+(test 'caar1 (exec '(caar (quote ((4 2 3))))) '4)
+
+;cdar
+(test 'cdar1 (exec '(cdar (quote ((4 2 3))))) '(2 3))
