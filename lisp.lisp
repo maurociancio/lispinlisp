@@ -193,3 +193,9 @@
 
 ;cdar
 (test 'cdar1 (exec '(cdar (quote ((4 2 3))))) '(2 3))
+
+;car + ambiente
+(test 'car-amb1 (exec '(car (list a 2 3)) '((a 100)) ) '100)
+
+;cdr + ambiente
+(test 'cdr-amb1 (exec '(cdr (list a b c)) '((a 100) (b 99) (c 98)) ) '(99 98))
