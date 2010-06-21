@@ -43,6 +43,10 @@
 		((eq (car code) 'cdar) (cdar (params code)))
 		;procesamos el not
 		((eq (car code) 'not) (not (params code)))
+		;procesamos el +
+		((eq (car code) '+) (apply '+ (cdr code)))
+		;procesamos el -
+		((eq (car code) '-) (apply '- (cdr code)))
 		;seguimos procesando
 		(t nil)
 	)
@@ -247,3 +251,8 @@
 
 ;recursion
 (test 'rec1 (exec '(car (car (quote((2 3 4))))) ) '2)
+
+;aritmeticas
+(test 'aritm1 (exec '(+ 2 3) ) '5)
+(test 'aritm2 (exec '(+ 2 3 4) ) '9)
+(test 'aritm3 (exec '(- 3 4 5) ) '-6)
