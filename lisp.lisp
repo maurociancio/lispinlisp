@@ -47,6 +47,8 @@
 		((eq (car code) 'atom) (atom (params code)))
 		;procesamos el listp
 		((eq (car code) 'listp) (listp (params code)))
+		;procesamos el numberp
+		((eq (car code) 'numberp) (numberp (params code)))
 		;procesamos el +
 		((eq (car code) '+) (apply '+ (cdr code)))
 		;procesamos el -
@@ -277,3 +279,8 @@
 (test 'listp1 (exec '(listp 2)) nil)
 (test 'listp2 (exec '(listp nil)) t)
 (test 'listp3 (exec '(listp (quote (2 3)))) t)
+
+;numberp
+(test 'numberp1 (exec '(numberp (quote (2 3)))) nil)
+(test 'numberp2 (exec '(numberp 2)) t)
+(test 'numberp2 (exec '(numberp nil)) nil)
