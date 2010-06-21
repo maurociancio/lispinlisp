@@ -71,6 +71,7 @@
 			;procesamos el /
 			((eq (car code) '/) (apply '/ (cdr code)))
 			;seguimos procesando
+			;buscar en el ambiente por si hay una funcion con el nombre 'car code'
 			(t nil)
 		)
 		nil
