@@ -114,7 +114,6 @@
 (defun alfa (f l env)
 	(if (null l)
 		nil
-;		(cons (apply f (list (car l))) (alfa f (cdr l)))
 		(cons (exec_fun (list f (car l)) env) (alfa f (cdr l) env))
 	)
 )
@@ -153,7 +152,7 @@
 ;(or expr1 expr2)
 (defun exec_or (code env)
 	(if (exec (cadr code) env)
-		T
+		t
 		(exec (caddr code) env)
 	)
 )
