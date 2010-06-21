@@ -252,7 +252,6 @@
 ;(test 'lambda1 (exec '((lambda (x) (* x 2)) 2)) '2)
 (test 'lambda1 (exec '(lambda (x) (* x 2))) '(lambda (x) (* x 2)))
 
-
 ;recursion
 (test 'rec1 (exec '(car (car (quote((2 3 4))))) ) '2)
 
