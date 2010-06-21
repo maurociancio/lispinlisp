@@ -398,11 +398,18 @@
 	'(mapcar 'numberp (quote (1 2 3 4)))
 	)
 	'(t t t t)
- )
+)
 
 (test 'fun3 (exec
 	'(mapcar 'my_fun (quote (1 2 3 4)))
 	'((my_fun (lambda (x) (* x 2))))
 	)
 	'(2 4 6 8)
- )
+)
+
+(test 'fun4 (exec
+	'(mapcar 'my_fun (quote (a b c d)))
+	'((my_fun (lambda (x) (* x 2)))(a 10)(b 20)(c 30)(d 40))
+	)
+	'(20 40 60 80)
+)
