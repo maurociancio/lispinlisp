@@ -324,7 +324,7 @@
 (test 'exp_amb2 (replace_or_add '((a 2)) 'a '1) '((a 1)))
 (test 'exp_amb3 (replace_or_add '((b 10) (a 2)) 'a '1) '((b 10) (a 1)))
 (test 'exp_amb4 (expand_env nil '(x y) '(10 20)) '((x 10) (y 20)))
-(test 'exp_amb4 (expand_env '((x 50)) '(x y) '(10 20)) '((x 10) (y 20)))
+(test 'exp_amb5 (expand_env '((x 50)) '(x y) '(10 20)) '((x 10) (y 20)))
 
 ;recursion
 (test 'rec1 (exec '(car (car (quote((2 3 4))))) ) '2)
