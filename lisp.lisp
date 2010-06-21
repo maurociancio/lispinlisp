@@ -51,6 +51,8 @@
 		((eq (car code) 'numberp) (numberp (params code)))
 		;procesamos el null
 		((eq (car code) 'null) (null (params code)))
+		;procesamos el nth
+		((eq (car code) 'nth) (nth (cadr code) (caddr code) ))
 		;procesamos el +
 		((eq (car code) '+) (apply '+ (cdr code)))
 		;procesamos el -
@@ -290,3 +292,8 @@
 ;null
 (test 'null1 (exec '(null nil)) t)
 (test 'null2 (exec '(null 3)) nil)
+
+;nth
+(test 'nth1 (exec '(nth 0 (quote (0 1)))) '0)
+(test 'nth2 (exec '(nth 1 (quote (0 1)))) '1)
+(test 'nth3 (exec '(nth 4 (quote (0 1 2 3 4)))) '4)
