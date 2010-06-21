@@ -280,6 +280,7 @@
 (test 'list1 (exec '(list 2 3 4)) '(2 3 4))
 (test 'list2 (exec '(list 2 3 4 5)) '(2 3 4 5))
 (test 'list3 (exec '(list t)) '(t))
+(test 'list4 (exec '(list 1 a (quote (1 2))) '((a 10))) '(1 10 (1 2)))
 
 ;list con proceso
 (test 'listproc1 (exec '(list (or t t))) '(t))
@@ -314,6 +315,7 @@
 (test 'lambda1 (exec '((lambda (x) (* x 2)) 2)) '4)
 (test 'lambda2 (exec '((lambda (x y) (+ (* x 2) y)) 2 4)) '8)
 (test 'lambda3 (exec '(lambda (x) (* x 2))) '(lambda (x) (* x 2)))
+(test 'lambda4 (exec '(mapcar (lambda (x) (cons x (cdr '(3 4 5)))) '(1 2 3))) '((1 4 5) (2 4 5) (3 4 5)))
 
 ;expandir ambiente
 (test 'exp_amb1 (replace_or_add nil 'a '1) '((a 1)))
@@ -361,6 +363,8 @@
 ;cons
 (test 'cons1 (exec '(cons 4 (quote (0 1 2 3 4)))) '(4 0 1 2 3 4))
 (test 'cons2 (exec '(cons 4 (quote (4)))) '(4 4))
+(test 'conscdr1 (exec '(cons x (cdr y)) '((x a)(y (b c)))) '(a c))
+(test 'conscdr2 (exec '(cons 'a (quote (1 2)))) '(a 1 2))
 
 ;append
 (test 'append1 (exec '(append (quote (4)) (quote (4)))) '(4 4))
