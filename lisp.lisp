@@ -86,6 +86,7 @@
 		((eq (car code) 'cdar) (cdar (params code)))
 		;procesamos el not
 		((eq (car code) 'not) (not (params code)))
+		;seguimos procesando
 		(t nil)
 	)
 )
@@ -114,6 +115,12 @@
 	)
 )
 
+;evalua funciones lambda
+;(lambda (params...) (code))
+(defun exec_lambda (code env)
+	code
+)
+
 ;evalua una expresion lisp
 ;ver ejemplos mas abajo
 (defun exec (code &optional (env nil))
@@ -131,6 +138,8 @@
 			((eq (car code) 'if) (exec_if code env))
 			;procesamos cond
 			((eq (car code) 'cond) (exec_cond code env))
+			;procesamos lambda functions
+			((eq (car code) 'lambda) (exec_lambda code env))
 			;procesamos demas funciones
 			(t (exec_fun (eval_args code env) env))
 		)
@@ -142,7 +151,7 @@
 (defun test (name got expected)
 	(if (equal expected got)
 		t
-		(progn (print '==errr==) (print name) (print 'expected) (print expected) (print 'got) (print got))
+		(progn (print '==error==) (print name) (print 'expected) (print expected) (print 'got) (print got))
 	)
 )
 ;=============================
@@ -225,4 +234,10 @@
 ;not
 (test 'not1 (exec '(not t)) nil)
 (test 'not2 (exec '(not nil)) t)
-(test 'not4 (exec '(not a) '((a nil))) t)
+(test 'not3 (exec '(not a) '((a nil))) t)
+
+;lambda
+;(test 'lambda1 (exec '((lambda (x) (* x 2)) 2)) '2)
+
+;recursion
+(test 'rec1 (exec '(car (car (quote((2 3 4))))) ) '2)
