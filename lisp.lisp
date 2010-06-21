@@ -49,6 +49,8 @@
 		((eq (car code) '-) (apply '- (cdr code)))
 		;procesamos el *
 		((eq (car code) '*) (apply '* (cdr code)))
+		;procesamos el /
+		((eq (car code) '/) (apply '/ (cdr code)))
 		;seguimos procesando
 		(t nil)
 	)
@@ -258,4 +260,6 @@
 (test 'aritm1 (exec '(+ 2 3) ) '5)
 (test 'aritm2 (exec '(+ 2 3 4) ) '9)
 (test 'aritm3 (exec '(- 3 4 5) ) '-6)
-(test 'aritm3 (exec '(* 3 4) ) '12)
+(test 'aritm4 (exec '(* 3 4) ) '12)
+(test 'aritm5 (exec '(/ 12 4) ) '3)
+(test 'aritm5 (exec '(* (/ 12 4) 10 )) '30)
