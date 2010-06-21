@@ -262,4 +262,5 @@
 (test 'aritm3 (exec '(- 3 4 5) ) '-6)
 (test 'aritm4 (exec '(* 3 4) ) '12)
 (test 'aritm5 (exec '(/ 12 4) ) '3)
-(test 'aritm5 (exec '(* (/ 12 4) 10 )) '30)
+(test 'aritm6 (exec '(* (/ 12 4) 10 )) '30)
+(test 'aritm7 (exec '(+ (* (/ 12 4) 10 ) 1000)) '1030)
