@@ -52,7 +52,9 @@
 		;procesamos el null
 		((eq (car code) 'null) (null (params code)))
 		;procesamos el nth
-		((eq (car code) 'nth) (nth (cadr code) (caddr code) ))
+		((eq (car code) 'nth) (nth (cadr code) (caddr code)))
+		;procesamos el cons
+		((eq (car code) 'cons) (cons (cadr code) (caddr code)))
 		;procesamos el +
 		((eq (car code) '+) (apply '+ (cdr code)))
 		;procesamos el -
@@ -297,3 +299,7 @@
 (test 'nth1 (exec '(nth 0 (quote (0 1)))) '0)
 (test 'nth2 (exec '(nth 1 (quote (0 1)))) '1)
 (test 'nth3 (exec '(nth 4 (quote (0 1 2 3 4)))) '4)
+
+;cons
+(test 'cons1 (exec '(cons 4 (quote (0 1 2 3 4)))) '(4 0 1 2 3 4))
+(test 'cons2 (exec '(cons 4 (quote (4)))) '(4 4))
