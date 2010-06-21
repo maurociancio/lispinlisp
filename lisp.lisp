@@ -61,7 +61,7 @@
 			;procesamos el apply
 			((eq (car code) 'apply) (apply (cadr code) (caddr code)))
 			;procesamos el apply
-			((eq (car code) 'mapcar) (alfa (cadr code) (caddr code)))
+			((eq (car code) 'mapcar) (alfa (cadr code) (caddr code) env))
 			;procesamos el +
 			((eq (car code) '+) (apply '+ (cdr code)))
 			;procesamos el -
@@ -111,10 +111,11 @@
 )
 
 ;implementacion del mapcar
-(defun alfa (f l)
+(defun alfa (f l env)
 	(if (null l)
 		nil
-		(cons (apply f (list (car l))) (alfa f (cdr l)))
+;		(cons (apply f (list (car l))) (alfa f (cdr l)))
+		(cons (exec_fun (list f (car l)) env) (alfa f (cdr l) env))
 	)
 )
 
@@ -397,4 +398,11 @@
 	'(mapcar 'numberp (quote (1 2 3 4)))
 	)
 	'(t t t t)
+ )
+
+(test 'fun3 (exec
+	'(mapcar 'my_fun (quote (1 2 3 4)))
+	'((my_fun (lambda (x) (* x 2))))
+	)
+	'(2 4 6 8)
  )
