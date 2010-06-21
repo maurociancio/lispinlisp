@@ -72,7 +72,7 @@
 			((eq (car code) '/) (apply '/ (cdr code)))
 			;seguimos procesando
 			;buscar en el ambiente por si hay una funcion con el nombre 'car code'
-			(t nil)
+			(t (exec (cons (env_search env (car code)) (cdr code)) env))
 		)
 		(cond
 			;procesamos lambda
@@ -381,3 +381,14 @@
 ;reverse
 (test 'reverse1 (exec '(reverse (quote (4 5 6)))) '(6 5 4))
 (test 'reverse2 (exec '(reverse (quote (4 5 6 7)))) '(7 6 5 4))
+
+;===========
+;funcionales
+;===========
+
+(test 'fun1 (exec
+	'(my_fun 1)
+	'( (my_fun (lambda (x) (* x 2))) )
+	)
+	'2
+)
