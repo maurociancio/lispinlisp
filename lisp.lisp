@@ -392,3 +392,9 @@
 	)
 	'2
 )
+
+(test 'fun2 (exec
+	'(mapcar 'numberp (quote (1 2 3 4)))
+	)
+	'(t t t t)
+ )
