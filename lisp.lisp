@@ -53,6 +53,8 @@
 		((eq (car code) 'null) (null (params code)))
 		;procesamos el length
 		((eq (car code) 'length) (length (params code)))
+		;procesamos el reverse
+		((eq (car code) 'reverse) (reverse (params code)))
 		;procesamos el nth
 		((eq (car code) 'nth) (nth (cadr code) (caddr code)))
 		;procesamos el cons
@@ -335,3 +337,7 @@
 (test 'mapcar1 (exec '(mapcar 'numberp (quote (4)))) '(t))
 (test 'mapcar2 (exec '(mapcar 'numberp (quote (4 5 6 nil)))) '(t t t nil))
 (test 'mapcar3 (exec '(mapcar 'car (quote ( (2 3) (4 5 ))))) '(2 4))
+
+;reverse
+(test 'reverse1 (exec '(reverse (quote (4 5 6)))) '(6 5 4))
+(test 'reverse2 (exec '(reverse (quote (4 5 6 7)))) '(7 6 5 4))
