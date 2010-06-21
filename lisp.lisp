@@ -51,6 +51,8 @@
 		((eq (car code) 'numberp) (numberp (params code)))
 		;procesamos el null
 		((eq (car code) 'null) (null (params code)))
+		;procesamos el length
+		((eq (car code) 'length) (length (params code)))
 		;procesamos el nth
 		((eq (car code) 'nth) (nth (cadr code) (caddr code)))
 		;procesamos el cons
@@ -309,3 +311,6 @@
 ;append
 (test 'append1 (exec '(append (quote (4)) (quote (4)))) '(4 4))
 (test 'append2 (exec '(append (quote (4 5 6)) (quote (4 5 6)))) '(4 5 6 4 5 6))
+
+;length
+(test 'length1 (exec '(length (quote (4 5 6)))) '3)
