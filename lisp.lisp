@@ -26,51 +26,54 @@
 ;procesamos funciones de lisp
 ;(fun params)
 (defun exec_fun (code env)
-	(cond
-		;procesamos list
-		((eq (car code) 'list) (cdr code))
-		;procesamos car
-		((eq (car code) 'car) (car (params code)))
-		;procesamos cdr
-		((eq (car code) 'cdr) (cdr (params code)))
-		;procesamos caar
-		((eq (car code) 'caar) (caar (params code)))
-		;procesamos cdar
-		((eq (car code) 'cdar) (cdar (params code)))
-		;procesamos el not
-		((eq (car code) 'not) (not (params code)))
-		;procesamos el atom
-		((eq (car code) 'atom) (atom (params code)))
-		;procesamos el listp
-		((eq (car code) 'listp) (listp (params code)))
-		;procesamos el numberp
-		((eq (car code) 'numberp) (numberp (params code)))
-		;procesamos el null
-		((eq (car code) 'null) (null (params code)))
-		;procesamos el length
-		((eq (car code) 'length) (length (params code)))
-		;procesamos el reverse
-		((eq (car code) 'reverse) (reverse (params code)))
-		;procesamos el nth
-		((eq (car code) 'nth) (nth (cadr code) (caddr code)))
-		;procesamos el cons
-		((eq (car code) 'cons) (cons (cadr code) (caddr code)))
-		;procesamos el append
-		((eq (car code) 'append) (append (cadr code) (caddr code)))
-		;procesamos el apply
-		((eq (car code) 'apply) (apply (cadr code) (caddr code)))
-		;procesamos el apply
-		((eq (car code) 'mapcar) (alfa (cadr code) (caddr code)))
-		;procesamos el +
-		((eq (car code) '+) (apply '+ (cdr code)))
-		;procesamos el -
-		((eq (car code) '-) (apply '- (cdr code)))
-		;procesamos el *
-		((eq (car code) '*) (apply '* (cdr code)))
-		;procesamos el /
-		((eq (car code) '/) (apply '/ (cdr code)))
-		;seguimos procesando
-		(t nil)
+	(if (atom (car code))
+		(cond
+			;procesamos list
+			((eq (car code) 'list) (cdr code))
+			;procesamos car
+			((eq (car code) 'car) (car (params code)))
+			;procesamos cdr
+			((eq (car code) 'cdr) (cdr (params code)))
+			;procesamos caar
+			((eq (car code) 'caar) (caar (params code)))
+			;procesamos cdar
+			((eq (car code) 'cdar) (cdar (params code)))
+			;procesamos el not
+			((eq (car code) 'not) (not (params code)))
+			;procesamos el atom
+			((eq (car code) 'atom) (atom (params code)))
+			;procesamos el listp
+			((eq (car code) 'listp) (listp (params code)))
+			;procesamos el numberp
+			((eq (car code) 'numberp) (numberp (params code)))
+			;procesamos el null
+			((eq (car code) 'null) (null (params code)))
+			;procesamos el length
+			((eq (car code) 'length) (length (params code)))
+			;procesamos el reverse
+			((eq (car code) 'reverse) (reverse (params code)))
+			;procesamos el nth
+			((eq (car code) 'nth) (nth (cadr code) (caddr code)))
+			;procesamos el cons
+			((eq (car code) 'cons) (cons (cadr code) (caddr code)))
+			;procesamos el append
+			((eq (car code) 'append) (append (cadr code) (caddr code)))
+			;procesamos el apply
+			((eq (car code) 'apply) (apply (cadr code) (caddr code)))
+			;procesamos el apply
+			((eq (car code) 'mapcar) (alfa (cadr code) (caddr code)))
+			;procesamos el +
+			((eq (car code) '+) (apply '+ (cdr code)))
+			;procesamos el -
+			((eq (car code) '-) (apply '- (cdr code)))
+			;procesamos el *
+			((eq (car code) '*) (apply '* (cdr code)))
+			;procesamos el /
+			((eq (car code) '/) (apply '/ (cdr code)))
+			;seguimos procesando
+			(t nil)
+		)
+		nil
 	)
 )
 
