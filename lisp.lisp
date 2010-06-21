@@ -1,3 +1,5 @@
+;autor: mauro ciancio
+
 ;evalua una expresion lisp
 ;ver ejemplos mas abajo
 (defun exec (code &optional (env nil))
