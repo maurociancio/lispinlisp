@@ -49,6 +49,8 @@
 		((eq (car code) 'listp) (listp (params code)))
 		;procesamos el numberp
 		((eq (car code) 'numberp) (numberp (params code)))
+		;procesamos el null
+		((eq (car code) 'null) (null (params code)))
 		;procesamos el +
 		((eq (car code) '+) (apply '+ (cdr code)))
 		;procesamos el -
@@ -283,4 +285,8 @@
 ;numberp
 (test 'numberp1 (exec '(numberp (quote (2 3)))) nil)
 (test 'numberp2 (exec '(numberp 2)) t)
-(test 'numberp2 (exec '(numberp nil)) nil)
+(test 'numberp3 (exec '(numberp nil)) nil)
+
+;null
+(test 'null1 (exec '(null nil)) t)
+(test 'null2 (exec '(null 3)) nil)
