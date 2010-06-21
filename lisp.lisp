@@ -74,7 +74,39 @@
 			;buscar en el ambiente por si hay una funcion con el nombre 'car code'
 			(t nil)
 		)
-		nil
+		(cond
+			;procesamos lambda
+			((eq (caar code) 'lambda) (apply_lambda (caddar code) (cadar code) (cdr code) env))
+			;que queda?
+			(t nil)
+		)
+	)
+)
+
+;aplicacion de lambda
+;code: codigo a ejecutar
+;params: parametros de la fcn lambda
+;vals: valores que toman los parametros de la funcion lambda
+;env: el ambiente actual
+(defun apply_lambda (code params vals env)
+	(exec code (expand_env env params vals))
+)
+
+;expande el ambiente
+(defun expand_env (env params vals)
+	(if (null params)
+		env
+		(expand_env (replace_or_add env (car params) (car vals)) (cdr params) (cdr vals))
+	)
+)
+
+(defun replace_or_add (env param new_value)
+	(if (null env)
+		(list (list param new_value))
+		(if (eq (caar env) param)
+			(cons (list param new_value) (cdr env))
+			(cons (car env) (replace_or_add (cdr env) param new_value))
+		)
 	)
 )
 
@@ -279,8 +311,16 @@
 (test 'not3 (exec '(not a) '((a nil))) t)
 
 ;lambda
-;(test 'lambda1 (exec '((lambda (x) (* x 2)) 2)) '2)
-(test 'lambda1 (exec '(lambda (x) (* x 2))) '(lambda (x) (* x 2)))
+(test 'lambda1 (exec '((lambda (x) (* x 2)) 2)) '4)
+(test 'lambda2 (exec '((lambda (x y) (+ (* x 2) y)) 2 4)) '8)
+(test 'lambda3 (exec '(lambda (x) (* x 2))) '(lambda (x) (* x 2)))
+
+;expandir ambiente
+(test 'exp_amb1 (replace_or_add nil 'a '1) '((a 1)))
+(test 'exp_amb2 (replace_or_add '((a 2)) 'a '1) '((a 1)))
+(test 'exp_amb3 (replace_or_add '((b 10) (a 2)) 'a '1) '((b 10) (a 1)))
+(test 'exp_amb4 (expand_env nil '(x y) '(10 20)) '((x 10) (y 20)))
+(test 'exp_amb4 (expand_env '((x 50)) '(x y) '(10 20)) '((x 10) (y 20)))
 
 ;recursion
 (test 'rec1 (exec '(car (car (quote((2 3 4))))) ) '2)
