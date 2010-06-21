@@ -43,6 +43,8 @@
 		((eq (car code) 'cdar) (cdar (params code)))
 		;procesamos el not
 		((eq (car code) 'not) (not (params code)))
+		;procesamos el atom
+		((eq (car code) 'atom) (atom (params code)))
 		;procesamos el +
 		((eq (car code) '+) (apply '+ (cdr code)))
 		;procesamos el -
@@ -263,3 +265,8 @@
 (test 'aritm5 (exec '(/ 12 4) ) '3)
 (test 'aritm6 (exec '(* (/ 12 4) 10 )) '30)
 (test 'aritm7 (exec '(+ (* (/ 12 4) 10 ) 1000)) '1030)
+
+;atom
+(test 'atom1 (exec '(atom 2)) t)
+(test 'atom2 (exec '(atom nil)) t)
+(test 'atom3 (exec '(atom (quote (2 3 4)))) nil)
