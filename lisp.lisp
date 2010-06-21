@@ -1,8 +1,6 @@
 ;evalua una expresion lisp
 ;ver ejemplos mas abajo
 (defun exec (code &optional (env nil))
-;	(print 'exec)
-;	(print code)
 	(if (null code) nil
 		(cond
 			;procesa atomos (numeros y variables de ambiente)
@@ -28,8 +26,6 @@
 ;procesamos funciones de lisp
 ;(fun params)
 (defun exec_fun (code env)
-;	(print 'exec_fun)
-;	(print code)
 	(cond
 		;procesamos list
 		((eq (car code) 'list) (cdr code))
