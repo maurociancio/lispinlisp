@@ -1,3 +1,53 @@
+;evalua una expresion lisp
+;ver ejemplos mas abajo
+(defun exec (code &optional (env nil))
+;	(print 'exec)
+;	(print code)
+	(if (null code) nil
+		(cond
+			;procesa atomos (numeros y variables de ambiente)
+			((atom code) (exec_atom code env))
+			;procesa el quote
+			((eq (car code) 'quote) (exec_quote code))
+			;procesamos el or
+			((eq (car code) 'or) (exec_or code env))
+			;procesamos el and
+			((eq (car code) 'and) (exec_and code env))
+			;procesamos el if
+			((eq (car code) 'if) (exec_if code env))
+			;procesamos cond
+			((eq (car code) 'cond) (exec_cond code env))
+			;procesamos lambda functions
+			((eq (car code) 'lambda) (exec_lambda code env))
+			;procesamos demas funciones
+			(t (exec_fun (eval_args code env) env))
+		)
+	)
+)
+
+;procesamos funciones de lisp
+;(fun params)
+(defun exec_fun (code env)
+;	(print 'exec_fun)
+;	(print code)
+	(cond
+		;procesamos list
+		((eq (car code) 'list) (cdr code))
+		;procesamos car
+		((eq (car code) 'car) (car (params code)))
+		;procesamos cdr
+		((eq (car code) 'cdr) (cdr (params code)))
+		;procesamos caar
+		((eq (car code) 'caar) (caar (params code)))
+		;procesamos cdar
+		((eq (car code) 'cdar) (cdar (params code)))
+		;procesamos el not
+		((eq (car code) 'not) (not (params code)))
+		;seguimos procesando
+		(t nil)
+	)
+)
+
 ;busca en el ambiente env el elemento elem
 ;ambiente: ((var val) (var2 val2))
 (defun env_search (env elem)
@@ -70,27 +120,6 @@
 	)
 )
 
-;procesamos funciones de lisp
-;(fun params)
-(defun exec_fun (code env)
-	(cond 
-		;procesamos list
-		((eq (car code) 'list) (cdr code))
-		;procesamos car
-		((eq (car code) 'car) (car (params code)))
-		;procesamos cdr
-		((eq (car code) 'cdr) (cdr (params code)))
-		;procesamos caar
-		((eq (car code) 'caar) (caar (params code)))
-		;procesamos cdar
-		((eq (car code) 'cdar) (cdar (params code)))
-		;procesamos el not
-		((eq (car code) 'not) (not (params code)))
-		;seguimos procesando
-		(t nil)
-	)
-)
-
 ;obtiene los parametros de una llamada a una funcion
 ;(fun (val1 val2))
 ;retorna (val1 val2)
@@ -119,31 +148,6 @@
 ;(lambda (params...) (code))
 (defun exec_lambda (code env)
 	code
-)
-
-;evalua una expresion lisp
-;ver ejemplos mas abajo
-(defun exec (code &optional (env nil))
-	(if (null code) nil
-		(cond
-			;procesa atomos (numeros y variables de ambiente)
-			((atom code) (exec_atom code env))
-			;procesa el quote
-			((eq (car code) 'quote) (exec_quote code))
-			;procesamos el or
-			((eq (car code) 'or) (exec_or code env))
-			;procesamos el and
-			((eq (car code) 'and) (exec_and code env))
-			;procesamos el if
-			((eq (car code) 'if) (exec_if code env))
-			;procesamos cond
-			((eq (car code) 'cond) (exec_cond code env))
-			;procesamos lambda functions
-			((eq (car code) 'lambda) (exec_lambda code env))
-			;procesamos demas funciones
-			(t (exec_fun (eval_args code env) env))
-		)
-	)
 )
 
 ;testing function
@@ -238,6 +242,8 @@
 
 ;lambda
 ;(test 'lambda1 (exec '((lambda (x) (* x 2)) 2)) '2)
+(test 'lambda1 (exec '(lambda (x) (* x 2))) '(lambda (x) (* x 2)))
+
 
 ;recursion
 (test 'rec1 (exec '(car (car (quote((2 3 4))))) ) '2)
