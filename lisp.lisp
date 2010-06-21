@@ -59,6 +59,8 @@
 		((eq (car code) 'cons) (cons (cadr code) (caddr code)))
 		;procesamos el append
 		((eq (car code) 'append) (append (cadr code) (caddr code)))
+		;procesamos el apply
+		((eq (car code) 'apply) (apply (cadr code) (caddr code)))
 		;procesamos el +
 		((eq (car code) '+) (apply '+ (cdr code)))
 		;procesamos el -
@@ -314,3 +316,7 @@
 
 ;length
 (test 'length1 (exec '(length (quote (4 5 6)))) '3)
+
+;apply
+(test 'apply1 (exec '(apply '+ (quote (4 5 6)))) '15)
+(test 'apply2 (exec '(apply '* (quote (4 5)))) '20)
