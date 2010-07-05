@@ -275,8 +275,8 @@
 ;cond
 (test 'cond1 (exec '(cond (t 2) )) '2)
 (test 'cond2 (exec '(cond (nil 5) (t 2) )) '2)
-(test 'cond3 (exec '(cond (and (nil nil) 5) (t 2) )) '2)
-(test 'cond4 (exec '(cond (and (nil nil) 5) (nil 99) (t 2) )) '2)
+(test 'cond3 (exec '(cond ((and nil nil) 5) (t 2) )) '2)
+(test 'cond4 (exec '(cond ((and nil nil) 5) (nil 99) (t 2) )) '2)
 
 ;list
 (test 'list1 (exec '(list 2 3 4)) '(2 3 4))
