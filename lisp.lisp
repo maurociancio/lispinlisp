@@ -3,86 +3,86 @@
 ;evalua una expresion lisp
 ;ver ejemplos mas abajo
 (defun exec (code &optional (env nil))
-	(if (null code) nil
-		(cond
-			;procesa atomos (numeros y variables de ambiente)
-			((atom code) (exec_atom code env))
-			;procesa el quote
-			((eq (car code) 'quote) (exec_quote code))
-			;procesamos el or
-			((eq (car code) 'or) (exec_or code env))
-			;procesamos el and
-			((eq (car code) 'and) (exec_and code env))
-			;procesamos el if
-			((eq (car code) 'if) (exec_if code env))
-			;procesamos cond
-			((eq (car code) 'cond) (exec_cond code env))
-			;procesamos lambda functions
-			((eq (car code) 'lambda) (exec_lambda code env))
-			;procesamos demas funciones
-			(t (exec_fun (eval_args code env) env))
-		)
-	)
+    (if (null code) nil
+        (cond
+            ;procesa atomos (numeros y variables de ambiente)
+            ((atom code) (exec_atom code env))
+            ;procesa el quote
+            ((eq (car code) 'quote) (exec_quote code))
+            ;procesamos el or
+            ((eq (car code) 'or) (exec_or code env))
+            ;procesamos el and
+            ((eq (car code) 'and) (exec_and code env))
+            ;procesamos el if
+            ((eq (car code) 'if) (exec_if code env))
+            ;procesamos cond
+            ((eq (car code) 'cond) (exec_cond code env))
+            ;procesamos lambda functions
+            ((eq (car code) 'lambda) (exec_lambda code env))
+            ;procesamos demas funciones
+            (t (exec_fun (eval_args code env) env))
+        )
+    )
 )
 
 ;procesamos funciones de lisp
 ;(fun params)
 (defun exec_fun (code env)
-	(if (atom (car code))
-		(cond
-			;procesamos list
-			((eq (car code) 'list) (cdr code))
-			;procesamos car
-			((eq (car code) 'car) (car (params code)))
-			;procesamos cdr
-			((eq (car code) 'cdr) (cdr (params code)))
-			;procesamos caar
-			((eq (car code) 'caar) (caar (params code)))
-			;procesamos cdar
-			((eq (car code) 'cdar) (cdar (params code)))
-			;procesamos el not
-			((eq (car code) 'not) (not (params code)))
-			;procesamos el atom
-			((eq (car code) 'atom) (atom (params code)))
-			;procesamos el listp
-			((eq (car code) 'listp) (listp (params code)))
-			;procesamos el numberp
-			((eq (car code) 'numberp) (numberp (params code)))
-			;procesamos el null
-			((eq (car code) 'null) (null (params code)))
-			;procesamos el length
-			((eq (car code) 'length) (length (params code)))
-			;procesamos el reverse
-			((eq (car code) 'reverse) (reverse (params code)))
-			;procesamos el nth
-			((eq (car code) 'nth) (nth (cadr code) (caddr code)))
-			;procesamos el cons
-			((eq (car code) 'cons) (cons (cadr code) (caddr code)))
-			;procesamos el append
-			((eq (car code) 'append) (append (cadr code) (caddr code)))
-			;procesamos el apply
-			((eq (car code) 'apply) (apply (cadr code) (caddr code)))
-			;procesamos el apply
-			((eq (car code) 'mapcar) (alfa (cadr code) (caddr code) env))
-			;procesamos el +
-			((eq (car code) '+) (apply '+ (cdr code)))
-			;procesamos el -
-			((eq (car code) '-) (apply '- (cdr code)))
-			;procesamos el *
-			((eq (car code) '*) (apply '* (cdr code)))
-			;procesamos el /
-			((eq (car code) '/) (apply '/ (cdr code)))
-			;seguimos procesando
-			;buscar en el ambiente por si hay una funcion con el nombre 'car code'
-			(t (exec (cons (env_search env (car code)) (cdr code)) env))
-		)
-		(cond
-			;procesamos lambda
-			((eq (caar code) 'lambda) (apply_lambda (caddar code) (cadar code) (cdr code) env))
-			;que queda?
-			(t nil)
-		)
-	)
+    (if (atom (car code))
+        (cond
+            ;procesamos list
+            ((eq (car code) 'list) (cdr code))
+            ;procesamos car
+            ((eq (car code) 'car) (car (params code)))
+            ;procesamos cdr
+            ((eq (car code) 'cdr) (cdr (params code)))
+            ;procesamos caar
+            ((eq (car code) 'caar) (caar (params code)))
+            ;procesamos cdar
+            ((eq (car code) 'cdar) (cdar (params code)))
+            ;procesamos el not
+            ((eq (car code) 'not) (not (params code)))
+            ;procesamos el atom
+            ((eq (car code) 'atom) (atom (params code)))
+            ;procesamos el listp
+            ((eq (car code) 'listp) (listp (params code)))
+            ;procesamos el numberp
+            ((eq (car code) 'numberp) (numberp (params code)))
+            ;procesamos el null
+            ((eq (car code) 'null) (null (params code)))
+            ;procesamos el length
+            ((eq (car code) 'length) (length (params code)))
+            ;procesamos el reverse
+            ((eq (car code) 'reverse) (reverse (params code)))
+            ;procesamos el nth
+            ((eq (car code) 'nth) (nth (cadr code) (caddr code)))
+            ;procesamos el cons
+            ((eq (car code) 'cons) (cons (cadr code) (caddr code)))
+            ;procesamos el append
+            ((eq (car code) 'append) (append (cadr code) (caddr code)))
+            ;procesamos el apply
+            ((eq (car code) 'apply) (apply (cadr code) (caddr code)))
+            ;procesamos el apply
+            ((eq (car code) 'mapcar) (alfa (cadr code) (caddr code) env))
+            ;procesamos el +
+            ((eq (car code) '+) (apply '+ (cdr code)))
+            ;procesamos el -
+            ((eq (car code) '-) (apply '- (cdr code)))
+            ;procesamos el *
+            ((eq (car code) '*) (apply '* (cdr code)))
+            ;procesamos el /
+            ((eq (car code) '/) (apply '/ (cdr code)))
+            ;seguimos procesando
+            ;buscar en el ambiente por si hay una funcion con el nombre 'car code'
+            (t (exec (cons (env_search env (car code)) (cdr code)) env))
+        )
+        (cond
+            ;procesamos lambda
+            ((eq (caar code) 'lambda) (apply_lambda (caddar code) (cadar code) (cdr code) env))
+            ;que queda?
+            (t nil)
+        )
+    )
 )
 
 ;aplicacion de lambda
@@ -91,105 +91,105 @@
 ;vals: valores que toman los parametros de la funcion lambda
 ;env: el ambiente actual
 (defun apply_lambda (code params vals env)
-	(exec code (expand_env env params vals))
+    (exec code (expand_env env params vals))
 )
 
 ;expande el ambiente
 (defun expand_env (env params vals)
-	(if (null params)
-		env
-		(expand_env (replace_or_add env (car params) (car vals)) (cdr params) (cdr vals))
-	)
+    (if (null params)
+        env
+        (expand_env (replace_or_add env (car params) (car vals)) (cdr params) (cdr vals))
+    )
 )
 
 (defun replace_or_add (env param new_value)
-	(if (null env)
-		(list (list param new_value))
-		(if (eq (caar env) param)
-			(cons (list param new_value) (cdr env))
-			(cons (car env) (replace_or_add (cdr env) param new_value))
-		)
-	)
+    (if (null env)
+        (list (list param new_value))
+        (if (eq (caar env) param)
+            (cons (list param new_value) (cdr env))
+            (cons (car env) (replace_or_add (cdr env) param new_value))
+        )
+    )
 )
 
 ;implementacion del mapcar
 (defun alfa (f l env)
-	(if (null l)
-		nil
-		(cons (exec_fun (list f (car l)) env) (alfa f (cdr l) env))
-	)
+    (if (null l)
+        nil
+        (cons (exec_fun (list f (car l)) env) (alfa f (cdr l) env))
+    )
 )
 
 ;busca en el ambiente env el elemento elem
 ;ambiente: ((var val) (var2 val2))
 (defun env_search (env elem)
-	(if (or (null env) (null elem))
-		nil
-		(if (eq (caar env) elem)
-			(cadar env)
-			(env_search (cdr env) elem)
-		)
-	)
+    (if (or (null env) (null elem))
+        nil
+        (if (eq (caar env) elem)
+            (cadar env)
+            (env_search (cdr env) elem)
+        )
+    )
 )
 
 ;evalua una expresion quote
 ;(quote expresion)
 (defun exec_quote (code)
-	(cadr code)
+    (cadr code)
 )
 
 ;evalua una expresion que es un atomo
 ;atomo
 (defun exec_atom (the_atom env)
-	(if (numberp the_atom) 
-		the_atom
-		(if (eq the_atom 't)
-			t
-			(env_search env the_atom)
-		)
-	)
+    (if (numberp the_atom) 
+        the_atom
+        (if (eq the_atom 't)
+            t
+            (env_search env the_atom)
+        )
+    )
 )
 
 ;evalua una expresion or
 ;(or expr1 expr2)
 (defun exec_or (code env)
-	(if (exec (cadr code) env)
-		t
-		(exec (caddr code) env)
-	)
+    (if (exec (cadr code) env)
+        t
+        (exec (caddr code) env)
+    )
 )
 
 ;evalua una expresion and
 ;(and expr1 expr2)
 (defun exec_and (code env)
-	(if (exec (cadr code) env)
-		(exec (caddr code) env)
-		nil
-	)
+    (if (exec (cadr code) env)
+        (exec (caddr code) env)
+        nil
+    )
 )
 
 ;evalua una expresion if
 ;(if expresion true-code false-code)
 (defun exec_if (code env)
-	(if (exec (cadr code) env)
-		(exec (caddr code) env)
-		(exec (cadddr code) env)
-	)
+    (if (exec (cadr code) env)
+        (exec (caddr code) env)
+        (exec (cadddr code) env)
+    )
 )
 
 ;evalula una expresion cond
 ;(cond (expr code) (expr code))
 (defun exec_cond (code env)
-	(exec_cond_list (cdr code) env)
+    (exec_cond_list (cdr code) env)
 )
 
 ;evalua una lista de expresion del cond con el sig formato
 ;((expr code) (expr code) )
 (defun exec_cond_list (code env)
-	(if (exec (caar code) env)
-		(exec (cadar code) env)
-		(exec_cond_list (cdr code) env)
-	)
+    (if (exec (caar code) env)
+        (exec (cadar code) env)
+        (exec_cond_list (cdr code) env)
+    )
 )
 
 ;obtiene los parametros de una llamada a una funcion
@@ -198,37 +198,37 @@
 ;(fun t)
 ;retorna t
 (defun params (code)
-	(cadr code)
+    (cadr code)
 )
 
 ;evalue la lista de argumentos de una funcion
 ;(fun param1 param2 ... paramn)
 (defun eval_args (code env)
-	(cons (car code) (eval_args_list (cdr code) env))
+    (cons (car code) (eval_args_list (cdr code) env))
 )
 
 ;evalue la lista de argumentos de una funcion
 ;(param1 param2 ... paramn)
 (defun eval_args_list (code env)
-	(if (null code)
-		nil
-		(cons (exec (car code) env) (eval_args_list (cdr code) env))
-	)
+    (if (null code)
+        nil
+        (cons (exec (car code) env) (eval_args_list (cdr code) env))
+    )
 )
 
 ;evalua funciones lambda
 ;(lambda (params...) (code))
 (defun exec_lambda (code env)
-	code
+    code
 )
 
 ;testing function
 ;=============================
 (defun test (name got expected)
-	(if (equal expected got)
-		t
-		(progn (print '==error==) (print name) (print 'expected) (print expected) (print 'got) (print got))
-	)
+    (if (equal expected got)
+        t
+        (progn (print '==error==) (print name) (print 'expected) (print expected) (print 'got) (print got))
+    )
 )
 ;=============================
 
@@ -393,28 +393,28 @@
 ;===========
 
 (test 'fun1 (exec
-	'(my_fun 1)
-	'( (my_fun (lambda (x) (* x 2))) )
-	)
-	'2
+    '(my_fun 1)
+    '( (my_fun (lambda (x) (* x 2))) )
+    )
+    '2
 )
 
 (test 'fun2 (exec
-	'(mapcar 'numberp (quote (1 2 3 4)))
-	)
-	'(t t t t)
+    '(mapcar 'numberp (quote (1 2 3 4)))
+    )
+    '(t t t t)
 )
 
 (test 'fun3 (exec
-	'(mapcar 'my_fun (quote (1 2 3 4)))
-	'((my_fun (lambda (x) (* x 2))))
-	)
-	'(2 4 6 8)
+    '(mapcar 'my_fun (quote (1 2 3 4)))
+    '((my_fun (lambda (x) (* x 2))))
+    )
+    '(2 4 6 8)
 )
 
 (test 'fun4 (exec
-	'(mapcar 'my_fun (quote (a b c d)))
-	'((my_fun (lambda (x) (* x 2)))(a 10)(b 20)(c 30)(d 40))
-	)
-	'(20 40 60 80)
+    '(mapcar 'my_fun (quote (a b c d)))
+    '((my_fun (lambda (x) (* x 2)))(a 10)(b 20)(c 30)(d 40))
+    )
+    '(20 40 60 80)
 )
